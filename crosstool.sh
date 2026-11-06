@@ -367,10 +367,10 @@ echo ${SCRIPT_NAME}: Build binutils
 mkdir -p build-binutils; cd build-binutils
 
 if test '!' -f Makefile; then
-    ${BINUTILS_DIR}/configure $CANADIAN_BUILD --target=$TARGET --host=$GCC_HOST --prefix=$PREFIX --disable-nls ${BINUTILS_EXTRA_CONFIG} $BINUTILS_SYSROOT_ARG
+    ${BINUTILS_DIR}/configure --build=$GCC_HOST $CANADIAN_BUILD --target=$TARGET --host=$GCC_HOST --prefix=$PREFIX --disable-nls ${BINUTILS_EXTRA_CONFIG} $BINUTILS_SYSROOT_ARG
 fi
 
-make $PARALLELMFLAGS all 
+make CFLAGS="-U_FORTIFY_SOURCE" $PARALLELMFLAGS all
 make install 
 
 if test x"$CORE_PREFIX" != x"$PREFIX"; then
@@ -443,7 +443,7 @@ if grep -q 'gcc-[34]' ${GCC_CORE_DIR}/ChangeLog && test '!' -f $HEADERDIR/featur
     fi
     # Note: BOOTSTRAP_GCC is used by patches/glibc-2.3.5/glibc-mips-bootstrap-gcc-header-install.patch
     libc_cv_ppc_machine=yes \
-    make cross-compiling=yes install_root=${SYSROOT} CFLAGS="-O -DBOOTSTRAP_GCC" $GLIBC_SYSROOT_ARG install-headers
+    make V=1 cross-compiling=yes install_root=${SYSROOT} CFLAGS="-O -DBOOTSTRAP_GCC" $GLIBC_SYSROOT_ARG install-headers
 
     # Two headers -- stubs.h and features.h -- aren't installed by install-headers,
     # so do them by hand.  We can tolerate an empty stubs.h for the moment.
@@ -481,7 +481,7 @@ cp -r $HEADERDIR/* $CORE_PREFIX/$TARGET/include
 # Use funky prefix so it doesn't contaminate real prefix, in case GCC_DIR != GCC_CORE_DIR
 
 if test '!' -f Makefile; then
-    ${GCC_CORE_DIR}/configure $CANADIAN_BUILD --target=$TARGET --host=$GCC_HOST --prefix=$CORE_PREFIX \
+    ${GCC_CORE_DIR}/configure --build=$GCC_HOST $CANADIAN_BUILD --target=$TARGET --host=$GCC_HOST --prefix=$CORE_PREFIX \
         --with-local-prefix=${SYSROOT} \
         --disable-multilib \
         --with-newlib \
@@ -603,7 +603,7 @@ if test '!' -f Makefile; then
     # only matters for gcc-3.2.x and later, I think
     # --disable-nls to work around crash bug on ppc405, but also because embedded
     # systems don't really need message catalogs...
-    ${GCC_DIR}/configure $CANADIAN_BUILD --target=$TARGET --host=$GCC_HOST --prefix=$PREFIX \
+    ${GCC_DIR}/configure $CANADIAN_BUILD --build=$GCC_HOST --target=$TARGET --host=$GCC_HOST --prefix=$PREFIX \
         ${GCC_EXTRA_CONFIG} \
         $GCC_SYSROOT_ARG \
         --with-local-prefix=${SYSROOT} \

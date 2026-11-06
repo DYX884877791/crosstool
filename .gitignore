@@ -6,3 +6,5 @@
 *.org
 *.orig
 *.rej
+build/
+.idea/

@@ -45,6 +45,6 @@ mkdir -p $RESULT_TOP
 #eval `cat i686.dat gcc-4.1.0-glibc-2.3.5.dat` sh all.sh --notest
 #eval `cat i686.dat gcc-4.1.0-glibc-2.3.5-tls.dat` sh all.sh --notest
 #eval `cat i686.dat gcc-4.1.0-glibc-2.3.6.dat` sh all.sh --notest
-eval `cat i686.dat gcc-4.1.0-glibc-2.3.6-tls.dat` sh all.sh --notest
+eval `cat i686.dat gcc-4.1.0-glibc-2.3.6-tls.dat` sh all.sh --notest --nogdb
 
 echo Done.

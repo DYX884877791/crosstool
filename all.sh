@@ -94,6 +94,9 @@ while [ $# -gt 0 ]; do
 	--gdb|-gdb) 
 	   opt_gdb=1
 	   ;;
+	--nogdb|-nogdb)
+	   opt_no_gdb=1
+	   ;;
 	--testlinux|-testlinux) 
 	   opt_testlinux=1
 	   ;;
@@ -105,6 +108,10 @@ done
 
 if test "$opt_gdb" = "1"; then
     test -z "${GDB_DIR}"          && echo "Defaulting to GDB_DIR=gdb-6.3" && GDB_DIR=gdb-6.3 && export GDB_DIR
+fi
+
+if test "$opt_no_gdb" = "1"; then
+    echo "Disable Building GDB" && unset GDB_DIR
 fi
 
 if test "$opt_no_unpack" = ""; then
